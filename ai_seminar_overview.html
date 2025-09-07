@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI画像・動画生成セミナー - 最先端技術で未来を体験</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        mermaid.initialize({
+          startOnLoad: true,
+          theme: 'base',
+          securityLevel: 'loose',
+          fontFamily: 'sans-serif',
+          themeVariables: {
+            primaryColor: '#4CAF50',
+            primaryTextColor: '#fff',
+            primaryBorderColor: '#9575CD',
+            lineColor: '#009688',
+            secondaryColor: '#FFC107',
+            tertiaryColor: '#f0f0f0'
+          },
+          flowchart: {
+            curve: 'basis'
+          }
+        });
+      });
+    </script>
+    
+    <style>
+    :root {
+      --main-color: #4CAF50;
+      --accent-color-1: #9575CD;
+      --accent-color-2: #FFC107;
+      --accent-color-3: #009688;
+      --accent-color-4: #E91E63;
+      --background-color: #FAFAFA;
+      --text-color: #333;
+      --light-text-color: #FFF;
+      --border-color: #E0E0E0;
+    }
+    body {
+      font-family: sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 8px;
+    }
+    h1, h2, h3, h4 { color: var(--main-color); margin-bottom: 0.8em; }
+    h1 { font-size: 2.2em; text-align: center; border-bottom: 2px solid var(--accent-color-2); padding-bottom: 10px; }
+    h2 { font-size: 1.8em; color: var(--accent-color-3); border-left: 5px solid var(--accent-color-3); padding-left: 10px; margin-top: 2em;}
+    h3 { font-size: 1.4em; color: var(--accent-color-1); margin-top: 1.5em; }
+    strong { color: var(--accent-color-4); }
+    ul, ol { padding-left: 25px; }
+    li { margin-bottom: 0.5em; }
+    p { margin-bottom: 1em; }
+    .hero-section {
+        background-color: var(--main-color);
+        color: var(--light-text-color);
+        padding: 30px;
+        text-align: center;
+        border-radius: 8px 8px 0 0;
+    }
+    .hero-section h1 { color: var(--light-text-color); border-bottom: none; }
+    .hero-section p { font-size: 1.1em; }
+    .benefits-section ul li::before {
+        content: '✅ ';
+        color: var(--main-color);
+        font-weight: bold;
+        display: inline-block;
+        width: 1em;
+        margin-left: -1em;
+    }
+    .process-section ol {
+      list-style: none;
+      counter-reset: step-counter;
+      padding-left: 0;
+    }
+    .process-section li {
+      counter-increment: step-counter;
+      margin-bottom: 1em;
+      position: relative;
+      padding-left: 40px;
+    }
+    .process-section li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 30px;
+      height: 30px;
+      background-color: var(--accent-color-2);
+      color: var(--text-color);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 30px;
+      font-weight: bold;
+    }
+    .quote {
+      background-color: #f0f0f0;
+      border-left: 5px solid var(--accent-color-1);
+      padding: 15px;
+      margin: 15px 0;
+      font-style: italic;
+    }
+    .faq-section dt {
+        font-weight: bold;
+        color: var(--accent-color-3);
+        margin-top: 1em;
+    }
+    .faq-section dd {
+        margin-left: 1.5em;
+        margin-bottom: 1em;
+    }
+    .mermaid {
+      margin-bottom: 1.5em;
+      text-align: center;
+    }
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 20px 0;
+    }
+    .impact-card {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent-color-1);
+    }
+    .tech-highlight {
+      background: linear-gradient(135deg, var(--accent-color-1), var(--accent-color-3));
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+  <section class="hero-section">
+    <h1>🚀 AI画像・動画生成の最前線</h1>
+    <p><span style="color: var(--accent-color-2); font-weight: bold; font-size: 1.2em;">「度肝を抜かれる」衝撃体験</span> - ComfyUIとローカル環境で実現する次世代クリエイション</p>
+    <p>💡 プロが惜しみなく伝える実践的スキルで、<em style="color: var(--accent-color-2);">未来を体験</em>しよう</p>
+    <div style="margin-top: 20px; padding: 15px; background-color: rgba(255,255,255,0.15); border-radius: 5px;">
+      <p style="margin: 5px 0; font-size: 1em;"><span style="color: var(--accent-color-2); font-weight: bold;">✨ "冒頭から凄すぎでした"</span></p>
+      <p style="margin: 5px 0; font-size: 1em;"><span style="color: var(--accent-color-2); font-weight: bold;">🎬 "映像制作過程の動画はめちゃくちゃ凄かった"</span></p>
+    </div>
+  </section>
+
+  <section class="benefits-section">
+    <h2>🎯 この内容から得られること</h2>
+    
+    <h3>主な学習内容 / トピック</h3>
+    <ul>
+      <li><strong>ComfyUI</strong>の基本操作方法と実践的な使い方</li>
+      <li>ローカル環境での<strong>画像＆動画生成</strong>システム構築</li>
+      <li>最新AI技術（Wan2.2など）の実際の動作確認</li>
+      <li>映像制作の<strong>具体的なプロセス</strong>とワークフロー</li>
+      <li>AIマンガ作成手法など応用テクニック</li>
+    </ul>
+    
+    <h3>💡 具体的にできるようになること / 成果</h3>
+    <ul>
+      <li><strong>「カッコイイ動画」</strong>を自分で制作できるスキル習得</li>
+      <li>ComfyUIを使った<strong>高品質な画像生成</strong>の実現</li>
+      <li>ローカル環境で動作する<strong>独自の生成AIシステム</strong>の運用</li>
+      <li>プロレベルの<strong>映像制作プロセス</strong>の理解と実践</li>
+      <li>最新技術を活用した<strong>クリエイティブワーク</strong>の実現</li>
+    </ul>
+    
+    <div class="tech-highlight">
+      <h3>✨ 期待される変化 / ポジティブな影響</h3>
+      <p><strong>「久々に生成AIのセミナーで鳥肌立った」</strong>という参加者の声に象徴されるように、このセミナーは単なる知識習得を超えた<em style="color: var(--accent-color-2);">体験的学習</em>を提供します。</p>
+      <p>🌟 <strong>「未来が見えた」「近未来を覗いたよう」</strong>な感覚で、AI技術の可能性を実感し、自身のクリエイティブな可能性を大幅に拡張できます。</p>
+    </div>
+  </section>
+
+  <section class="proof-section">
+    <h2>💬 内容の根拠 / 具体例</h2>
+    
+    <div class="impact-grid">
+      <div class="impact-card">
+        <h4>🎬 実際の制作デモ</h4>
+        <p>岸本さんの<strong>映像制作過程の動画</strong>を実際に見ることができ、参加者から「めちゃくちゃ凄かった」との評価</p>
+      </div>
+      <div class="impact-card">
+        <h4>💻 技術的な深さ</h4>
+        <p><strong>「こんなに公開しても大丈夫かな」</strong>と思うほど濃い内容で、実践的なスキルを惜しみなく公開</p>
+      </div>
+    </div>
+    
+    <div class="quote">
+      <p><strong>"冒頭から凄すぎでした。実際にどのように動くのかを見れて良かったです"</strong></p>
+      <p><em>- セミナー参加者（40代・女性・会社員）</em></p>
+    </div>
+    
+    <div class="quote">
+      <p><strong>"未来が見えました。ありがとうございました！！とてもわかりやすかったです"</strong></p>
+      <p><em>- セミナー参加者（50代・男性・個人事業主）</em></p>
+    </div>
+
+    <pre class="mermaid">
+      graph TD
+          A[従来の画像・動画制作] --> B{AI技術の活用};
+          B --> C[ComfyUI導入];
+          B --> D[ローカル環境構築];
+          C --> E[高品質画像生成];
+          D --> F[独自システム運用];
+          E --> G[プロレベルの作品制作];
+          F --> G;
+          G --> H[未来のクリエイティブワーク];
+          
+          style A fill:#ffebee;
+          style H fill:#e8f5e8;
+          style G fill:#fff3e0;
+    </pre>
+  </section>
+
+  <section class="process-section">
+    <h2>➡️ 詳細なプロセス / 手順</h2>
+    
+    <h3>具体的なステップ</h3>
+    <ol>
+      <li><strong>基礎理解:</strong> ComfyUIの基本操作方法を<em>デモを交えながら</em>習得</li>
+      <li><strong>環境構築:</strong> ローカル環境での画像＆動画生成システムのセットアップ</li>
+      <li><strong>実践体験:</strong> 実際の映像制作プロセスを見学し、ワークフローを理解</li>
+      <li><strong>技術応用:</strong> Wan2.2などの最新技術の動作確認と活用方法</li>
+      <li><strong>スキル定着:</strong> 自身のPC環境で実際に<strong>触って体感</strong>してみる</li>
+    </ol>
+    
+    <pre class="mermaid">
+      graph TD
+          Start[セミナー開始] --> Shock[冒頭で度肝を抜かれる];
+          Shock --> Demo[ComfyUIデモ実演];
+          Demo --> Learn[基本操作習得];
+          Learn --> Practice[実践的ワークフロー];
+          Practice --> Apply[自分のPC環境で応用];
+          Apply --> Master[プロレベルのスキル習得];
+          
+          style Start fill:#e3f2fd;
+          style Shock fill:#ffecb3;
+          style Master fill:#c8e6c9;
+    </pre>
+    
+    <h3>🖥️ 必要な技術要件</h3>
+    <p><strong>重要な注意点:</strong> 多くの参加者が<em style="color: var(--accent-color-4);">「PCのスペックが全然足りてない」</em>と感じており、高性能なPC環境が望ましいことが示されています。事前のシステム要件確認が重要です。</p>
+  </section>
+
+  <section class="faq-section">
+    <h2>❓ 想定される疑問点 (Q&A)</h2>
+    <dl>
+      <dt>Q1: PCのスペックが不安ですが、参加する価値はありますか？</dt>
+      <dd>A1: はい。参加者の多くが<strong>「PCの性能が悪く構築しきれなかった」</strong>経験を持ちながらも、<em>「実際にどのように動くのかを見れて良かった」</em>と評価しています。スペックが足りなくても、<strong>実際の動作を見て学ぶ価値</strong>は非常に高いです。</dd>
+      
+      <dt>Q2: 初心者でも理解できる内容ですか？</dt>
+      <dd>A2: <strong>「デモを交えながらの説明が大変わかりやすかった」</strong>という評価があり、<em>丁寧な説明</em>で基本から学べる構成になっています。「ちょっと難しそう」と感じた参加者も<strong>「ツールを使えるようになってカッコイイ動画を作ってみたい」</strong>と前向きになっています。</dd>
+      
+      <dt>Q3: このセミナーの特徴は何ですか？</dt>
+      <dd>A3: <strong>「ギブの量が半端じゃない」</strong>と評されるほど、講師が<em>惜しみなくスキルを伝える</em>姿勢が特徴です。「凄い映画みた気分」になるほどの<strong>圧倒的な内容量</strong>と実践性が魅力です。</dd>
+      
+      <dt>Q4: 今後も同様のセミナーは開催されますか？</dt>
+      <dd>A4: 多くの参加者が<strong>「また知りたい」「ぜひまたのご登壇をお待ちしております」</strong>と希望しており、今後のAIマンガ作成方法などの<em>新しいテーマでの開催</em>も期待されています。</dd>
+    </dl>
+  </section>
+
+</div>
+
+</body>
+</html>

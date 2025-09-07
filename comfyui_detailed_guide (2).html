@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ComfyUI完全解説ガイド - プロクリエイターが語る映像AI革命</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Mermaid.js の読み込み -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            mermaid.initialize({
+                startOnLoad: true,
+                theme: 'base',
+                securityLevel: 'loose',
+                fontFamily: '"Kaisei Decol", sans-serif',
+                themeVariables: {
+                    primaryColor: '#4CAF50',
+                    primaryTextColor: '#333',
+                    primaryBorderColor: '#E91E63',
+                    lineColor: '#009688',
+                    secondaryColor: '#FFC107',
+                    tertiaryColor: '#9575CD'
+                },
+                flowchart: {
+                    cornerRadius: 15,
+                    curve: 'cardinal',
+                    htmlLabels: true
+                }
+            });
+        });
+    </script>
+    
+    <style>
+        :root {
+            --main-color: #4CAF50;
+            --accent-1: #9575CD;
+            --accent-2: #FFC107;
+            --accent-3: #009688;
+            --accent-4: #E91E63;
+            --bg-color: #FAFAFA;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-light: #E0E0E0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', 'Kaisei Decol', sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+            background-color: var(--bg-color);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ヘッダーセクション */
+        .hero-section {
+            background: linear-gradient(135deg, var(--main-color) 0%, var(--accent-3) 100%);
+            color: var(--text-dark);
+            text-align: center;
+            padding: 80px 40px;
+            margin-bottom: 40px;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: rotate(0deg) translate(-20px, -20px); }
+            50% { transform: rotate(180deg) translate(20px, 20px); }
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            margin-bottom: 30px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* アイコン作成 */
+        .icon {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            vertical-align: middle;
+            position: relative;
+        }
+
+        .icon-ai::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-2);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(45deg);
+            top: 4px;
+            left: 4px;
+        }
+
+        .icon-video::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 14px;
+            background: var(--accent-4);
+            border-radius: 4px;
+            top: 5px;
+            left: 2px;
+        }
+
+        .icon-video::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 6px solid var(--text-dark);
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            top: 8px;
+            left: 7px;
+        }
+
+        .icon-workflow::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--accent-1);
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            box-shadow: 8px 0 0 var(--accent-1), 16px 0 0 var(--accent-1), 4px 8px 0 var(--accent-1), 12px 8px 0 var(--accent-1), 8px 16px 0 var(--accent-1);
+        }
+
+        /* セクションスタイル */
+        .section {
+            background: white;
+            margin-bottom: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+        }
+
+        .section-header {
+            padding: 30px 40px;
+            background: linear-gradient(135deg, var(--main-color) 0%, var(--accent-3) 100%);
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-content {
+            padding: 40px;
+        }
+
+        /* 結論ボックス */
+        .conclusion-box {
+            background: linear-gradient(135deg, var(--accent-2) 0%, #FFD54F 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 6px solid var(--accent-4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conclusion-box::before {
+            content: '💡';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            opacity: 0.7;
+        }
+
+        .conclusion-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        /* 背景情報ボックス */
+        .background-box {
+            background: linear-gradient(135deg, var(--accent-1) 0%, #B39DDB 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 6px solid var(--accent-3);
+        }
+
+        .background-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        /* 具体例ボックス */
+        .example-box {
+            background: linear-gradient(135deg, var(--accent-3) 0%, #4DB6AC 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 6px solid var(--main-color);
+        }
+
+        .example-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        /* 例え話ボックス */
+        .analogy-box {
+            background: linear-gradient(135deg, #F8BBD9 0%, #F48FB1 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 6px solid var(--accent-4);
+            position: relative;
+        }
+
+        .analogy-box::before {
+            content: '👵';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+        }
+
+        .analogy-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+
+        /* 専門用語説明 */
+        .tech-term {
+            background: #E8F5E8;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid var(--main-color);
+            position: relative;
+        }
+
+        .tech-term::before {
+            content: '🔧';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.2rem;
+        }
+
+        .tech-term-title {
+            font-weight: 600;
+            color: var(--main-color);
+            margin-bottom: 8px;
+        }
+
+        /* メリット・デメリットリスト */
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pros, .cons {
+            padding: 25px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .pros {
+            background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
+            border-left: 6px solid var(--main-color);
+        }
+
+        .cons {
+            background: linear-gradient(135deg, #FFCDD2 0%, #EF9A9A 100%);
+            border-left: 6px solid var(--accent-4);
+        }
+
+        .pros::before {
+            content: '✅';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+        }
+
+        .cons::before {
+            content: '⚠️';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+        }
+
+        .pros-title, .cons-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        /* フローチャートスタイル */
+        .mermaid-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            overflow-x: auto;
+        }
+
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .hero-section {
+                padding: 60px 30px;
+            }
+            
+            .section-content {
+                padding: 30px 25px;
+            }
+            
+            .section-header {
+                padding: 25px 25px;
+            }
+        }
+
+        /* スムーススクロール */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* アニメーション */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* セクション番号 */
+        .section-number {
+            background: var(--accent-2);
+            color: var(--text-dark);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border-left: 6px solid #FF9800;
+            position: relative;
+        }
+
+        .warning-box::before {
+            content: '⚠️';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ヘッダーセクション -->
+        <div class="hero-section fade-in">
+            <h1 class="hero-title">ComfyUI完全解説ガイド</h1>
+            <p class="hero-subtitle">プロクリエイターが語る映像AI生成の革命</p>
+            <p style="font-size: 1.1rem; opacity: 0.8;">イギリス受賞クリエイター岸本氏による実践的解説</p>
+        </div>
+
+        <!-- 1. クリエイターの軌跡と技術革新 -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number">1</span>
+                    <span class="icon icon-ai"></span>
+                    クリエイターの軌跡と技術革新の歴史
+                </h2>
+            </div>
+            <div class="section-content">
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">結論：映像技術は急速に民主化されている</h3>
+                    <p>プロレベルの映像制作技術が、AI技術の進歩により誰でもアクセス可能な時代となり、創作の参入障壁が劇的に下がっています。</p>
+                </div>
+
+                <div class="background-box">
+                    <h3 class="background-title">技術進歩の背景</h3>
+                    <p>2012年のイギリスコンペ受賞から始まり、VJ（ビデオジョッキー）からプロジェクションマッピング、XR（拡張現実）、メタバース、そして現在のAI生成技術まで、映像制作技術は段階的に進化してきました。</p>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">VJ（ビデオジョッキー）</div>
+                        <p>音楽に合わせてリアルタイムで映像を操作・編集する技術者のこと</p>
+                    </div>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">プロジェクションマッピング</div>
+                        <p>建物や物体の表面に映像を投影し、立体的な映像演出を行う技術</p>
+                    </div>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">XR（Extended Reality）</div>
+                        <p>VR（仮想現実）、AR（拡張現実）、MR（複合現実）を総称した次世代映像技術</p>
+                    </div>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart TD
+                            A[2012年 イギリスコンペ受賞] --> B[VJ: 映像つなぎ合わせ]
+                            B --> C[プロジェクションマッピング]
+                            C --> D[XR技術]
+                            D --> E[メタバース開発]
+                            E --> F[AI生成技術]
+                            F --> G[ComfyUI マスター]
+                            
+                            style A fill:#4CAF50
+                            style G fill:#E91E63
+                            style F fill:#FFC107
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3 class="example-title">具体的な技術進歩の例</h3>
+                    <p>Adobe社やMettle社（VRで有名、後にAdobeに買収）などの業界トップ企業からの技術協力を受け、世界規模のフェスティバルでVG（ビジュアルグラフィックス）技術を手がけるなど、常に最先端技術を実践的に学習してきました。</p>
+                </div>
+
+                <div class="analogy-box">
+                    <h3 class="analogy-title">おばあちゃんにも分かる例え話</h3>
+                    <p>昔は写真を現像するのに暗室が必要で、専門技術を持った人だけができました。でも今はスマートフォンで誰でも美しい写真が撮れるようになりました。映像制作も同じで、昔はプロだけができた高度な映像作りが、AIの力で誰でもできるようになったのです。まるで魔法の筆を手に入れたようなものですね。</p>
+                </div>
+
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">学習環境の最適化</h3>
+                    <p>現在は学習リソースが豊富で、努力次第で誰でも高度な技術を習得可能。年齢による記憶力の制約はあるものの、若い世代にとっては最高の学習環境が整っています。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. ComfyUIの基本概念 -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number">2</span>
+                    <span class="icon icon-video"></span>
+                    ComfyUIとは何か？基本概念の解説
+                </h2>
+            </div>
+            <div class="section-content">
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">結論：ComfyUIは画像と動画の統合AI生成プラットフォーム</h3>
+                    <p>ComfyUIは画像生成に加えて、本格的な動画生成機能を搭載した革新的なローカル環境AI生成ツールです。</p>
+                </div>
+
+                <div class="background-box">
+                    <h3 class="background-title">開発背景と競合状況</h3>
+                    <p>従来はStable Diffusion 1.1.1（標準版）、Stable Diffusion WebUI、ComfyUIの3強体制でしたが、Stable Diffusionシリーズの開発が約1年前から停滞。一方、ComfyUIは動画生成機能を実装し、積極的な開発が継続されています。</p>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">Stable Diffusion</div>
+                        <p>オープンソースの画像生成AIモデル。テキストから画像を生成する技術の先駆者</p>
+                    </div>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">ローカル環境</div>
+                        <p>インターネット接続が不要で、自分のパソコン内でAI処理を完結させる実行環境</p>
+                    </div>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        graph LR
+                            A[AI生成ツール比較] --> B[Stable Diffusion 1.1.1]
+                            A --> C[Stable Diffusion WebUI]
+                            A --> D[ComfyUI]
+                            
+                            B --> E[開発停滞 ❌]
+                            C --> F[開発停滞 ❌]
+                            D --> G[積極開発 ✅]
+                            
+                            G --> H[画像生成]
+                            G --> I[動画生成 🆕]
+                            G --> J[ワークフロー]
+                            
+                            style D fill:#4CAF50
+                            style G fill:#FFC107
+                            style I fill:#E91E63
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3 class="example-title">動画生成の画期的進歩</h3>
+                    <p>従来、ローカル環境での本格的な動画生成は技術的に困難でした。クラウドサービスでは可能でしたが、ComfyUIが初めてローカル環境での高品質動画生成を実現。これにより、ユーザーは自分のパソコンで完全にプライベートな動画制作が可能になりました。</p>
+                </div>
+
+                <div class="analogy-box">
+                    <h3 class="analogy-title">おばあちゃんにも分かる例え話</h3>
+                    <p>昔は料理を作るのに、街の料理屋さんに頼む（クラウドサービス）か、材料を買って自分の台所で作る（ローカル環境）かでした。自分の台所では簡単な料理しか作れませんでしたが、ComfyUIは自分の台所でもプロレベルの複雑な料理（動画）が作れる魔法の調理器具のようなものです。</p>
+                </div>
+
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">技術的優位性</h3>
+                    <p>ComfyUIは現在唯一の積極開発中ローカル環境AI生成ツールとして、画像・動画統合生成の分野で独占的地位を確立しつつあります。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. ローカル環境生成の革命的メリット -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number">3</span>
+                    <span class="icon icon-workflow"></span>
+                    ローカル環境生成の革命的メリット
+                </h2>
+            </div>
+            <div class="section-content">
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">結論：創作の自由度とプライバシーの完全確保</h3>
+                    <p>ローカル環境での生成により、コンプライアンス制限を受けずに自由な創作が可能となり、真のクリエイティブ表現が実現されます。</p>
+                </div>
+
+                <div class="background-box">
+                    <h3 class="background-title">クラウドサービスの制約問題</h3>
+                    <p>クラウドベースのAI生成サービスでは、運営会社のコンプライアンス基準により、特定の表現が制限されます。アート表現や映画制作において、これらの制限は創作活動の大きな障害となっていました。</p>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">コンプライアンス制限</div>
+                        <p>AI生成サービス運営会社が設定する表現規制。法的リスクや社会的配慮から設けられる</p>
+                    </div>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h3 class="pros-title">ローカル環境のメリット</h3>
+                        <p><strong>完全な表現自由度：</strong>映画制作での学生服シーンやアート表現での肌の露出など、芸術的に必要な表現が制限されない</p>
+                        <p><strong>プライバシー保護：</strong>生成した画像・動画が外部サーバーに送信されない</p>
+                        <p><strong>コスト効率：</strong>初期投資後は追加料金なしで無制限生成が可能</p>
+                        <p><strong>オフライン作業：</strong>インターネット接続不要で作業継続可能</p>
+                    </div>
+                    <div class="cons">
+                        <h3 class="cons-title">注意すべき点</h3>
+                        <p><strong>高いマシンスペック要求：</strong>GPUメモリ8GB以上推奨</p>
+                        <p><strong>学習コスト：</strong>初期習得に時間と努力が必要</p>
+                        <p><strong>技術的責任：</strong>生成物の適切な使用は利用者の判断に委ねられる</p>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3 class="example-title">実際の制約回避例</h3>
+                    <p><strong>映画制作での応用：</strong>女子高生のセーラー服シーンが必要な青春映画で、クラウドサービスではNGとなる表現もローカル環境では生成可能</p>
+                    <p><strong>パフォーマンスアート：</strong>男性アーティストの上半身露出パフォーマンス映像も、芸術表現として適切に生成可能</p>
+                    <p><strong>歴史的再現：</strong>戦争映画や歴史ドキュメンタリーでの暴力的シーンも、教育目的であれば制作可能</p>
+                </div>
+
+                <div class="analogy-box">
+                    <h3 class="analogy-title">おばあちゃんにも分かる例え話</h3>
+                    <p>昔の写真現像は、街の写真屋さんに頼んでいました。でも写真屋さんには「このような写真は現像できません」という規則がありました。ローカル環境でのAI生成は、自分の家に現像室を持つようなもの。誰にも邪魔されずに、自分の思い通りの作品を作ることができるのです。ただし、その代わりに現像技術を自分で覚える必要があります。</p>
+                </div>
+
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">創作活動の民主化</h3>
+                    <p>ローカル環境でのAI生成は、従来のクリエイティブ産業の制約から解放され、真に自由な表現活動を可能にする革命的技術です。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 使いやすさの劇的改善 -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number">4</span>
+                    <span class="icon icon-ai"></span>
+                    使いやすさの劇的改善とUI進化
+                </h2>
+            </div>
+            <div class="section-content">
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">結論：複雑に見えるUIも実際の操作は4箇所程度</h3>
+                    <p>ComfyUI 1.2以降、見た目の複雑さに反して実際の操作は大幅に簡素化され、初心者でも扱いやすくなりました。</p>
+                </div>
+
+                <div class="background-box">
+                    <h3 class="background-title">UI改善の歴史</h3>
+                    <p>初期のComfyUIは確かに習得困難で、多くのクリエイターが敬遠していました。しかし、バージョン1.2以降の大幅なUI改善により、直感的な操作が可能となり、プロクリエイターでさえ「1年以上放置していた」ツールが「誰でも使える」レベルまで改善されました。</p>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">ノードベースUI</div>
+                        <p>ComfyUIの特徴的なインターフェース。処理を箱（ノード）と線（接続）で視覚的に表現する方式</p>
+                    </div>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart TD
+                            A[ComfyUI初期バージョン] --> B[複雑なノード構成]
+                            B --> C[習得困難]
+                            C --> D[多くのクリエイターが挫折]
+                            
+                            E[ComfyUI 1.2以降] --> F[UI大幅改善]
+                            F --> G[操作箇所の絞り込み]
+                            G --> H[初心者でも可能]
+                            
+                            D --> I[バージョンアップ]
+                            I --> E
+                            
+                            style A fill:#FFCDD2
+                            style E fill:#C8E6C9
+                            style H fill:#4CAF50
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3 class="example-title">実際の操作簡素化例</h3>
+                    <p><strong>画面の見た目：</strong>20〜30個のノードが並ぶ複雑な画面</p>
+                    <p><strong>実際の操作：</strong>初心者が触るべき箇所は4箇所程度のみ</p>
+                    <p><strong>基本操作の流れ：</strong>ワークフロー読み込み → 不足モデルの追加 → パラメータ調整（2〜3箇所） → 生成ボタン押下</p>
+                    <p><strong>比較対象：</strong>Stable Diffusion WebUIと比較して、慣れれば明らかに簡単</p>
+                </div>
+
+                <div class="analogy-box">
+                    <h3 class="analogy-title">おばあちゃんにも分かる例え話</h3>
+                    <p>最新の洗濯機を想像してください。外から見ると沢山のボタンがあって複雑に見えますが、実際には「スタート」「水量」「洗剤投入」の3つだけ覚えれば普通に洗濯できます。ComfyUIも同じで、画面には沢山の設定項目が見えますが、実際に触るのは「読み込み」「設定」「スタート」くらいなのです。</p>
+                </div>
+
+                <div class="warning-box">
+                    <h3 style="color: #FF9800; margin-bottom: 15px;">初心者向け注意点</h3>
+                    <p>画面の複雑さに圧倒されて諦めがちですが、全ての機能を理解する必要はありません。まずは基本的なワークフローを動かすことから始め、必要に応じて徐々に機能を覚えていくアプローチが効果的です。</p>
+                </div>
+
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">学習アプローチの最適化</h3>
+                    <p>複雑に見えるインターフェースも、段階的学習により確実に習得可能。2時間程度の集中学習で基本操作は十分理解できます。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. ワークフローシステムの革新 -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number">5</span>
+                    <span class="icon icon-workflow"></span>
+                    ワークフローシステムの革新的機能
+                </h2>
+            </div>
+            <div class="section-content">
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">結論：プロの制作手順を瞬時にコピー可能</h3>
+                    <p>ワークフローシステムにより、熟練クリエイターの制作手順を完全に再現でき、学習効率が飛躍的に向上します。</p>
+                </div>
+
+                <div class="background-box">
+                    <h3 class="background-title">ワークフローシステムの仕組み</h3>
+                    <p>ComfyUIのワークフローは、制作手順をメタデータとして画像に埋め込む技術です。プロクリエイターが作成した画像をComfyUIに読み込むだけで、その制作に使用した全てのノード構成、パラメータ設定、モデル情報が自動的に再現されます。</p>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">メタデータ</div>
+                        <p>画像ファイルに埋め込まれた制作情報。撮影日時やカメラ設定と同様に、AI生成の手順も記録される</p>
+                    </div>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">ワークフロー</div>
+                        <p>AI生成における一連の処理手順。モデル選択からパラメータ調整まで全工程を含む</p>
+                    </div>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart LR
+                            A[プロの作品画像] --> B[ComfyUIに読み込み]
+                            B --> C[メタデータ自動解析]
+                            C --> D[ワークフロー自動構築]
+                            D --> E[ノード配置完了]
+                            E --> F[パラメータ設定復元]
+                            F --> G[即座に実行可能]
+                            
+                            H[手動再現の場合] --> I[数時間の解析]
+                            I --> J[試行錯誤]
+                            J --> K[不完全な再現]
+                            
+                            style G fill:#4CAF50
+                            style K fill:#FFCDD2
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3 class="example-title">具体的な活用例</h3>
+                    <p><strong>プロ作品の学習：</strong>気に入ったAI生成画像をダウンロードして読み込むだけで、制作手順が完全再現</p>
+                    <p><strong>作業効率化：</strong>同じスタイルの画像を100枚生成する場合、手動設定なしでワンクリック実行</p>
+                    <p><strong>技術継承：</strong>自分の制作手順を後輩や同僚に正確に伝達可能</p>
+                    <p><strong>バックアップ機能：</strong>過去の成功パターンを確実に保存・再利用可能</p>
+                </div>
+
+                <div class="analogy-box">
+                    <h3 class="analogy-title">おばあちゃんにも分かる例え話</h3>
+                    <p>昔、おばあちゃんが美味しい料理を作る時、レシピを手書きで記録していました。でもワークフローシステムは、料理の写真を見ただけで「この料理は何の材料を、どの順番で、どのくらいの火加減で作ったか」が自動的に分かる魔法のレシピ帳のようなものです。有名シェフの料理も、写真一枚あれば完璧に再現できるのです。</p>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h3 class="pros-title">ワークフローのメリット</h3>
+                        <p><strong>学習効率化：</strong>プロの技術を瞬時に習得可能</p>
+                        <p><strong>品質保証：</strong>成功パターンの確実な再現</p>
+                        <p><strong>時間短縮：</strong>設定作業の大幅削減</p>
+                        <p><strong>知識共有：</strong>技術コミュニティでの情報交換促進</p>
+                    </div>
+                    <div class="cons">
+                        <h3 class="cons-title">注意点</h3>
+                        <p><strong>依存リスク：</strong>仕組みを理解せずに使用する危険性</p>
+                        <p><strong>モデル依存：</strong>特定のAIモデルが必要な場合あり</p>
+                        <p><strong>著作権：</strong>他者の作品を参考にする際の権利関係</p>
+                    </div>
+                </div>
+
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">学習パラダイムの変革</h3>
+                    <p>ワークフローシステムは従来の「試行錯誤による学習」から「成功パターンの即座な習得」へと学習方法を根本的に変革しました。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. AI連携とコスト構造 -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number">6</span>
+                    <span class="icon icon-ai"></span>
+                    AI連携機能とコスト構造の詳細分析
+                </h2>
+            </div>
+            <div class="section-content">
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">結論：無料ローカル生成と有料高精度AIの最適な組み合わせ</h3>
+                    <p>ComfyUIは基本的にローカル無料生成が可能で、必要に応じて高精度な有料AIサービスとの連携により品質向上を図れる柔軟な構造です。</p>
+                </div>
+
+                <div class="background-box">
+                    <h3 class="background-title">AI連携の技術的背景</h3>
+                    <p>ComfyUIの最大の革新は、複数のAI生成サービスを統一的なインターフェースで利用できる点です。ローカルで基本生成を行い、特定の部分のみ高精度なクラウドAIを使用するハイブリッド構成が可能となりました。</p>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">API連携</div>
+                        <p>外部のAIサービスとプログラム的に接続し、機能を相互利用する技術</p>
+                    </div>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">ハイブリッド生成</div>
+                        <p>ローカル処理とクラウド処理を組み合わせた最適化された生成方式</p>
+                    </div>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        graph TD
+                            A[ComfyUI] --> B[ローカル生成 無料]
+                            A --> C[クラウドAI連携 有料]
+                            
+                            B --> D[基本的な画像・動画生成]
+                            B --> E[プライベート処理]
+                            B --> F[無制限生成]
+                            
+                            C --> G[Kling AI]
+                            C --> H[RunwayML]
+                            C --> I[Pika Labs]
+                            
+                            G --> J[超高精度動画 ¥200-300/回]
+                            H --> K[プロ級映像 ¥150-250/回]
+                            I --> L[特殊効果 ¥100-200/回]
+                            
+                            style B fill:#4CAF50
+                            style C fill:#FFC107
+                            style J fill:#E91E63
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3 class="example-title">連携可能なAIサービス詳細</h3>
+                    <p><strong>Kling AI：</strong>中国発の超高精度動画生成AI。リアルな人物動作が得意（約200-300円/生成）</p>
+                    <p><strong>RunwayML：</strong>ハリウッド映画でも使用される業界標準AI（約150-250円/生成）</p>
+                    <p><strong>Pika Labs：</strong>特殊効果や物理現象の再現に特化（約100-200円/生成）</p>
+                    <p><strong>Higen：</strong>アニメーション生成に特化したAI（価格変動あり）</p>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h3 class="pros-title">コスト面でのメリット</h3>
+                        <p><strong>基本無料：</strong>ローカル生成により追加料金なし</p>
+                        <p><strong>選択的課金：</strong>必要な部分のみ有料AI使用</p>
+                        <p><strong>バルク処理：</strong>大量生成時のコスト効率性</p>
+                        <p><strong>価格比較：</strong>複数サービス間での最適選択</p>
+                    </div>
+                    <div class="cons">
+                        <h3 class="cons-title">コスト面での注意点</h3>
+                        <p><strong>積算リスク：</strong>頻繁使用による予想外の高額請求</p>
+                        <p><strong>品質格差：</strong>ローカルと有料AIの大きな品質差</p>
+                        <p><strong>価格変動：</strong>各サービスの料金体系変更リスク</p>
+                    </div>
+                </div>
+
+                <div class="analogy-box">
+                    <h3 class="analogy-title">おばあちゃんにも分かる例え話</h3>
+                    <p>家で料理を作る時を考えてください。普段は自分の台所で材料を買って作れば基本的に無料です（ローカル生成）。でも特別な日には、有名レストランのシェフに特別料理を頼むこともあります（有料AI連携）。ComfyUIは、普段は自分で作り、必要な時だけプロに頼める便利なシステムなのです。しかも、複数のレストランから一番良いものを選んで注文できます。</p>
+                </div>
+
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">最適なコスト戦略</h3>
+                    <p>基本的なワークフローはローカルで構築し、最終的な品質向上のみ有料AIを使用する戦略が最もコスト効率的です。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. システム要件とマシンスペック -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number">7</span>
+                    <span class="icon icon-workflow"></span>
+                    システム要件とマシンスペック詳細分析
+                </h2>
+            </div>
+            <div class="section-content">
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">結論：GPUメモリ8GB以上が推奨、それ以下でも工夫次第で動作可能</h3>
+                    <p>ComfyUIは確かにマシンスペックに依存しますが、適切な設定により中程度のスペックでも実用的な運用が可能です。</p>
+                </div>
+
+                <div class="background-box">
+                    <h3 class="background-title">AIローカル生成におけるハードウェア要件</h3>
+                    <p>AI生成技術、特に高品質な画像・動画生成は、従来のWEBアプリケーションとは桁違いの計算処理能力を要求します。これは、数百万から数十億のパラメータを持つAIモデルをリアルタイムで処理するためです。</p>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">GPU（Graphics Processing Unit）</div>
+                        <p>画像処理専用プロセッサ。AI計算に最適化された並列処理能力を持つ</p>
+                    </div>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">VRAM（Video RAM）</div>
+                        <p>GPU専用メモリ。AIモデルのサイズと生成画像の解像度に直接影響</p>
+                    </div>
+                    
+                    <div class="tech-term">
+                        <div class="tech-term-title">CUDA</div>
+                        <p>NVIDIA製GPUでAI計算を高速化する技術。AMD製GPU用のROCmも存在</p>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <h3 style="color: #FF9800; margin-bottom: 15px;">重要な事前確認事項</h3>
+                    <p>ComfyUIはインターネット上でボタンを押すだけの簡単なAIツールとは根本的に異なります。自分のパソコン内でプロレベルのAI処理を実行するため、相応のハードウェア性能が必要です。導入前に必ずシステム要件を確認してください。</p>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart TD
+                            A[システム要件チェック] --> B{GPUメモリ容量}
+                            
+                            B --> C[4GB以下]
+                            B --> D[4-8GB]
+                            B --> E[8-12GB]
+                            B --> F[12GB以上]
+                            
+                            C --> G[基本的な画像生成のみ<br/>低解像度推奨]
+                            D --> H[標準的な画像生成<br/>短時間動画可能]
+                            E --> I[高品質画像・動画生成<br/>実用的なレベル]
+                            F --> J[プロレベル生成<br/>制約なし]
+                            
+                            style C fill:#FFCDD2
+                            style D fill:#FFF3E0
+                            style E fill:#E8F5E8
+                            style F fill:#4CAF50
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3 class="example-title">具体的なスペック要件と対応策</h3>
+                    <p><strong>推奨スペック：</strong></p>
+                    <p>・GPU: NVIDIA RTX 4070以上（VRAM 12GB以上）</p>
+                    <p>・CPU: Intel i7 12世代以上 / AMD Ryzen 7 5000シリーズ以上</p>
+                    <p>・RAM: 32GB以上</p>
+                    <p>・ストレージ: SSD 500GB以上の空き容量</p>
+                    
+                    <p><strong>最低動作スペック：</strong></p>
+                    <p>・GPU: NVIDIA GTX 1660以上（VRAM 6GB以上）</p>
+                    <p>・CPU: Intel i5 10世代以上 / AMD Ryzen 5 3000シリーズ以上</p>
+                    <p>・RAM: 16GB以上</p>
+                    <p>・ストレージ: SSD 200GB以上の空き容量</p>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h3 class="pros-title">スペック対応策</h3>
+                        <p><strong>低VRAM対応：</strong>モデルの分割読み込み機能使用</p>
+                        <p><strong>処理時間調整：</strong>バッチサイズの最適化</p>
+                        <p><strong>解像度調整：</strong>段階的アップスケーリング</p>
+                        <p><strong>クラウド併用：</strong>重い処理のみ外部AI使用</p>
+                    </div>
+                    <div class="cons">
+                        <h3 class="cons-title">スペック不足の影響</h3>
+                        <p><strong>生成時間：</strong>数分から数時間に延長</p>
+                        <p><strong>品質制限：</strong>解像度や精度の制約</p>
+                        <p><strong>安定性：</strong>メモリ不足によるクラッシュ</p>
+                        <p><strong>機能制限：</strong>一部の高度な機能が使用不可</p>
+                    </div>
+                </div>
+
+                <div class="analogy-box">
+                    <h3 class="analogy-title">おばあちゃんにも分かる例え話</h3>
+                    <p>ComfyUIを使うことは、自分の家で映画を作ることに似ています。簡単な家庭ビデオなら普通のカメラで撮れますが、ハリウッド映画のような高品質な作品を作ろうとすると、プロ用の高価な機材が必要になります。でも、機材が揃えば、映画スタジオと同じクオリティの作品を自分の家で作ることができるのです。最初は小さな作品から始めて、徐々に機材をアップグレードしていけば良いのです。</p>
+                </div>
+
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">投資対効果の最適化</h3>
+                    <p>初期投資は大きいものの、長期的には無制限生成により十分な投資対効果が期待できます。段階的なスペックアップグレードにより、学習と投資を両立させることが可能です。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 総括セクション -->
+        <div class="section fade-in">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-number">∞</span>
+                    総括：ComfyUIが開く創作の未来
+                </h2>
+            </div>
+            <div class="section-content">
+                <div class="conclusion-box">
+                    <h3 class="conclusion-title">AI生成技術の民主化による創作革命</h3>
+                    <p>ComfyUIは単なるツールを超えて、クリエイティブ表現の民主化を実現する革命的プラットフォームです。技術的な参入障壁を下げながらも、プロレベルの表現力を提供し、誰もが映像クリエイターになれる時代を切り開いています。</p>
+                </div>
+
+                <div class="mermaid-container">
+                    <div class="mermaid">
+                        flowchart LR
+                            A[従来の映像制作] --> B[高額な機材]
+                            A --> C[専門技術の習得]
+                            A --> D[長期間の修行]
+                            
+                            E[ComfyUI時代] --> F[AI支援制作]
+                            E --> G[ワークフロー共有]
+                            E --> H[即座の実験・反復]
+                            
+                            B --> I[参入障壁が高い]
+                            C --> I
+                            D --> I
+                            
+                            F --> J[誰でもクリエイター]
+                            G --> J
+                            H --> J
+                            
+                            style A fill:#FFCDD2
+                            style E fill:#C8E6C9
+                            style J fill:#4CAF50
+                    </div>
+                </div>
+
+                <div class="analogy-box">
+                    <h3 class="analogy-title">最後のおばあちゃんへのメッセージ</h3>
+                    <p>昔、絵を描くには何年も修行して、高価な絵の具を買って、才能がある人だけができることでした。でも今は、誰でもスマートフォンで美しい写真を撮り、アプリで素敵に加工できます。ComfyUIは、映像の世界でも同じことを実現します。おばあちゃんでも、孫の成長記録を映画のように美しく作ることができる、そんな魔法のような時代がやってきたのです。大切なのは、この技術を使って何を表現したいかという気持ちです。</p>
+                </div>
+
+                <div style="text-align: center; margin-top: 50px; padding: 30px; background: linear-gradient(135deg, var(--main-color) 0%, var(--accent-3) 100%); border-radius: 15px;">
+                    <h3 style="color: var(--text-dark); margin-bottom: 20px;">創作の未来は、あなたの手の中にあります</h3>
+                    <p style="font-size: 1.2rem; color: var(--text-dark); opacity: 0.9;">Technology enables creativity, but creativity defines the future.</p>
+                </div>
+
+                <!-- 要点サマリー -->
+                <div style="background: white; margin-top: 40px; padding: 30px; border-radius: 15px; border: 3px solid var(--main-color);">
+                    <h3 style="color: var(--main-color); text-align: center; margin-bottom: 25px; font-size: 1.8rem;">📝 重要ポイント要約</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                        <div style="background: #E8F5E8; padding: 20px; border-radius: 10px;">
+                            <h4 style="color: var(--main-color); margin-bottom: 10px;">🎯 ComfyUIの特徴</h4>
+                            <p style="font-size: 0.9rem; line-height: 1.6;">
+                                • ローカル環境で動画・画像生成<br>
+                                • プロのワークフロー瞬時コピー<br>
+                                • コンプライアンス制限なし<br>
+                                • インストールが劇的に簡素化<br>
+                                • Git環境が途中で要求される
+                            </p>
+                        </div>
+                        
+                        <div style="background: #FFF3E0; padding: 20px; border-radius: 10px;">
+                            <h4 style="color: #FF9800; margin-bottom: 10px;">⚠️ 現実的な要件</h4>
+                            <p style="font-size: 0.9rem; line-height: 1.6;">
+                                • GPU: NVIDIA RTX 3060以上（必須）<br>
+                                • VRAM: 12GB以上（24GB推奨）<br>
+                                • ストレージ: 4TB SSD（33GB×20-30個）<br>
+                                • 時間: ダウンロード数時間 + 環境構築1-2日<br>
+                                • 予算: 10万円〜（中古RTX 3090含む）
+                            </p>
+                        </div>
+                        
+                        <div style="background: #E3F2FD; padding: 20px; border-radius: 10px;">
+                            <h4 style="color: var(--accent-3); margin-bottom: 10px;">🚀 今すぐできること</h4>
+                            <p style="font-size: 0.9rem; line-height: 1.6;">
+                                • PCスペック確認（GPU型番・VRAM）<br>
+                                • comfy.org でダウンロード時間計算<br>
+                                • Git for Windows の事前準備<br>
+                                • 60GB のダウンロード覚悟決定<br>
+                                • インストール用の丸一日確保
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 簡単なスクロールアニメーション
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            fadeElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
